@@ -1,7 +1,7 @@
 name: "Evaluation_Blog"
 title: "My Blog"
 description: |
-  My Blog
+  A blog exploring data vizualization in R
 output_dir: "docs"
 navbar:
   right:

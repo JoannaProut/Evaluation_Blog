@@ -1,19 +1,19 @@
 [
   {
-    "path": "posts/welcome/",
-    "title": "Welcome to My Blog",
-    "description": "Welcome to our new blog, My Blog. We hope you enjoy \nreading what we have to say!",
+    "path": "posts/2021-01-15-tidy-tuesday-2021-week-3/",
+    "title": "Tidy Tuesday at the Tate",
+    "description": "My code and plot for the Tidy Tuesday Challenge for Week 3 of 2021.",
     "author": [
       {
-        "name": "Nora Jones",
-        "url": "https://example.com/norajones"
+        "name": "Joanna Prout",
+        "url": {}
       }
     ],
-    "date": "2020-12-31",
+    "date": "2021-01-15",
     "categories": [],
-    "contents": "\r\n\r\n\r\n\r\n",
-    "preview": {},
-    "last_modified": "2020-12-31T08:24:44-05:00",
+    "contents": "\r\nTidy Tuesday\r\nWeek 3: Art at the Tate Gallery\r\nThis week’s Tidy Tuesday challenge used information about artists and artworks at the Tate Modern gallery.\r\nTwo files were provided, one with information about each artist, including gender, and another with a description of the artworks.\r\n\r\n\r\nlibrary (tidyverse)\r\nlibrary (treemapify)\r\nlibrary (showtext)\r\n\r\n## Loading Google fonts (https://fonts.google.com/)\r\nfont_add_google(\"Montserrat\")\r\n\r\n## Automatically use showtext to render text\r\nshowtext_auto()\r\n\r\n#read in data\r\nartwork <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-01-12/artwork.csv')\r\nartists <- readr::read_csv(\"https://github.com/tategallery/collection/raw/master/artist_data.csv\")\r\n\r\n#changing artists$name to artists$artist so it is the same between files\r\nartists$artist <- artists$name\r\n\r\n#merging files, keep only artists born during or after the 20th century, select variables\r\nmerged <- merge (artwork, artists, by = \"artist\") \r\n\r\n\r\n\r\n\r\n\r\n#selecting female artists with the most works in Tate\r\nf <- merged %>%\r\n  filter (gender == \"Female\") %>%\r\n  select (artist, gender) %>%\r\n  group_by (artist) %>%\r\n  summarize (n = n()) %>%\r\n  top_n (5)\r\n\r\n#fun way to reconfigure names from https://stackoverflow.com/questions/33826650/last-name-first-name-to-first-name-last-name\r\nf$artist <- sapply(strsplit(f$artist, split=\", \"),function(x) \r\n{paste(rev(x),collapse=\" \")})\r\n\r\n#add label\r\nf$label <- paste (f$artist, f$n, sep = \", \")\r\n\r\n#treemap\r\nggplot (f, aes (area = n, fill = artist, label = label)) +\r\n  geom_treemap ()+\r\n  geom_treemap_text (color = \"black\", family = \"Montserrat\", size = 11) +\r\n  labs (title = \"Most Represented Women Artists at the Tate\",\r\n        subtitle = \"\\n The Tate Modern houses the UK's national collection of British Art \\n in addition to modern and contemporary art from across the world.\\n \\n  Only 16% of artists represented are female. \\n \\n This chart highlights the women with the greatest numbers of works. \\n \",\r\n        caption =\"\\nSource: Tate Art Museum | Graphic: @joieprout\" ) +\r\n   theme(\r\n    text = element_text(family = \"Montserrat\", size = 12), \r\n    plot.title = element_text(size = 18, face = \"bold\"),\r\n    plot.caption = element_text(size = 10),\r\n    legend.position = \"none\",\r\n    plot.margin=unit(c(0.5,0.5,0.5, 0.5),\"cm\")\r\n   ) +\r\n  scale_fill_brewer(palette =\"BuPu\") \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+    "preview": "posts/2021-01-15-tidy-tuesday-2021-week-3/tidy-tuesday-2021-week-3_files/figure-html5/unnamed-chunk-1-1.png",
+    "last_modified": "2021-01-15T20:08:38-05:00",
     "input_file": {}
   }
 ]
