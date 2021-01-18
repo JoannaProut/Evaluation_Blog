@@ -1,0 +1,38 @@
+---
+title: "Tidy Tuesday 2021 Week 4: Kenya Census 2019"
+description: |
+  A short description of the post.
+author:
+  - name: Joanna Prout
+    url: {}
+date: 01-18-2021
+output:
+  distill::distill_article:
+    self_contained: false
+draft: true
+---
+
+
+```{r setup, include=FALSE}
+library(tidyverse)
+
+#set wd nd get data
+
+setwd ("/Users/jprout/OneDrive - University of Maryland School of Medicine/R/Evaluation_Blog/_posts/2021-01-18-tidy-tuesday-2021-week-4-kenya-census-2019")
+
+school <- read_csv("kenya_schools.csv")
+#data description
+#Table 2.2: Distribution of Population Age 3 Years and Above by School Attendance Status,
+#' Area of Residence, Sex, County and Sub-County
+#"before C and after C" C= completion
+
+totals <- filter (school, Group == "Total")
+```
+
+```{r}
+
+ggplot (totals, aes (x=SubCounty, y = StillinSchool_Perc, label = StillinSchool_Perc )) +
+  geom_col () +
+  coord_flip ()
+```
+
